@@ -3,13 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start"
+    "test": "make test"
   },
   "dependencies": {
-    "mocha": "~2.3.3",
     "react-native": "~0.14.1"
-    },
-    "scripts": {
-        "test": "make test"
-    }
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  }
 }
