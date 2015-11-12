@@ -2,11 +2,30 @@ import React, {
     Component,
     ListView, View,
     Image, Text,
+    StyleSheet,
 } from 'react-native';
 
-import style from '../styles/ProductStyle';
-
 const PRODUCTS_URL = 'http://postersgalore.marmelab.com/api/products';
+
+const style = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    rightContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F5FCFF',
+    },
+    thumbnail: {
+        width: 53,
+        height: 81,
+    },
+});
 
 export default class ProductList extends Component {
     constructor(props) {
