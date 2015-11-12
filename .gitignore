@@ -1,0 +1,13 @@
+# Android/IJ
+#
+.idea
+.gradle
+local.properties
+
+# node.js
+#
+node_modules/
+npm-debug.log
+
+# Android build
+android/

@@ -1,0 +1,19 @@
+{
+  "name": "Posters_Galore_Android",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "test": "make test"
+  },
+  "dependencies": {
+    "react-native": "~0.14.1"
+  },
+  "devDependencies": {
+    "eslint": "~1.9.0",
+    "eslint-config-airbnb": "~1.0.0",
+    "eslint-plugin-mocha": "~1.0.0",
+    "eslint-plugin-react": "~3.8.0",
+    "mocha": "~2.3.3",
+    "mocha-traceur": "~2.1.0"
+  }
+}
