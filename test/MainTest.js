@@ -1,5 +1,5 @@
-var assert = require('assert');
+import assert from 'assert';
 
-it('should pass', function() {
+it('should pass', () => {
     assert(true);
 });
