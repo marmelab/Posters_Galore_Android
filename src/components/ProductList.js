@@ -1,11 +1,11 @@
 import React, {
-    Component,
-    ListView, View,
+    Component, PropTypes,
+    ScrollView, View,
     Image, Text,
     StyleSheet,
 } from 'react-native';
-
-const PRODUCTS_URL = 'http://postersgalore.marmelab.com/api/products';
+import { connect } from 'react-redux/native';
+import { fetchProductsIfNeeded } from '../actions/PostersActions';
 
 const style = StyleSheet.create({
     container: {
@@ -27,61 +27,66 @@ const style = StyleSheet.create({
     },
 });
 
-export default class ProductList extends Component {
+class ProductList extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            dataSource: new ListView.DataSource({
-                rowHasChanged: (raw1, raw2) => raw1 !== raw2,
-            }),
-            loaded: false,
-        };
     }
 
     componentDidMount() {
-        this.fetchData();
+        this.props.fetchProductsIfNeeded();
     }
 
-    fetchData() {
-        fetch(PRODUCTS_URL)
-            .then((res) => res.json())
-            .then((resData) => {
-                this.setState({
-                    dataSource: this.state.dataSource.cloneWithRows(resData),
-                    loaded: true,
-                });
-            })
-            .done();
-    }
-
-    renderProduct(product) {
+    renderProducts(products) {
         return (
-            <View style={style.container}>
-                <Image
-                    style={style.thumbnail}
-                    source={{uri: product.thumbnail}}
-                />
-                <View style={style.rightContainer}>
-                    <Text>Buy for {product.price}$</Text>
-                    <Text>{product.stock} in stock</Text>
-                </View>
+            <ScrollView>
+                {products.map((product) =>
+                    <View style={style.container}>
+                        <Image
+                            style={style.thumbnail}
+                            source={{uri: product.thumbnail}}
+                        />
+                        <View style={style.rightContainer}>
+                            <Text>Buy for {product.price}$</Text>
+                            <Text>{product.stock} in stock</Text>
+                        </View>
+                    </View>
+                )}
+            </ScrollView>
+        );
+    }
+
+    renderMessage(message) {
+        return (
+            <View>
+                <Text>{message}</Text>
             </View>
         );
     }
 
     render() {
-        if (!this.state.loaded) {
-            return (
-                <View><Text>Loading ...</Text></View>
-            );
+        const { isFetching, didInvalidate, products } = this.props;
+
+        if (didInvalidate) {
+            return this.renderMessage('An error occured.');
         }
 
-        return (
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={this.renderProduct}
-            />
-        );
+        if (isFetching && products.length === 0) {
+            return this.renderMessage('Loading ...');
+        }
+
+        if (!isFetching && products.length === 0) {
+            return this.renderMessage('No product available.');
+        }
+
+        return this.renderProducts(products);
     }
 }
+
+ProductList.propTypes = {
+    products: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    didInvalidate: PropTypes.bool.isRequired,
+    fetchProductsIfNeeded: PropTypes.func.isRequired,
+};
+
+export default connect((state) => state, { fetchProductsIfNeeded })(ProductList);

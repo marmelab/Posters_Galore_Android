@@ -1,5 +1,3 @@
-'use strict';
-
 import { AppRegistry } from 'react-native';
 import PostersGaloreAndroid from './src/components/App';
 
