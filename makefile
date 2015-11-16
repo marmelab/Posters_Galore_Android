@@ -8,5 +8,5 @@ run:
 	node node_modules/react-native/local-cli/cli.js run-android
 
 test:
-	./node_modules/.bin/mocha --compilers js:mocha-traceur
+	./node_modules/.bin/jest --verbose
 .PHONY: test

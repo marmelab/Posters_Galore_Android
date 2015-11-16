@@ -1,3 +1,6 @@
+jest.dontMock('../src/actions/PostersActions');
+
+import 'isomorphic-fetch';
 import assert from 'assert';
 import nock from 'nock';
 import * as actions from '../src/actions/PostersActions';

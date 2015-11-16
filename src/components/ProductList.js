@@ -27,11 +27,7 @@ const style = StyleSheet.create({
     },
 });
 
-class ProductList extends Component {
-    constructor(props) {
-        super(props);
-    }
-
+export class ProductList extends Component {
     componentDidMount() {
         this.props.fetchProductsIfNeeded();
     }

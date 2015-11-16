@@ -1,7 +1,7 @@
 import React, { Component } from 'react-native';
 import { Provider } from 'react-redux/native';
 import configureStore from '../store/PostersStore';
-import ProductList from './ProductList';
+import ProductList from '../components/ProductList';
 
 const store = configureStore();
 
