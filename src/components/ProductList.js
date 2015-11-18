@@ -3,10 +3,14 @@ import React, {
     ScrollView, View,
     Image, Text,
     StyleSheet,
+    PixelRatio,
     TouchableOpacity,
 } from 'react-native';
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
+    contentContainer: {
+        padding: 10,
+    },
     container: {
         flex: 1,
         flexDirection: 'row',
@@ -21,8 +25,25 @@ const style = StyleSheet.create({
         backgroundColor: '#F5FCFF',
     },
     thumbnail: {
-        width: 53,
-        height: 81,
+        width: 60,
+        height: 93,
+        backgroundColor: '#dddddd',
+        marginRight: 10,
+    },
+    price: {
+        flex: 1,
+        fontSize: 16,
+        fontWeight: '500',
+        marginBottom: 2,
+    },
+    stock: {
+        color: '#999999',
+        fontSize: 12,
+    },
+    separator: {
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+        height: 1 / PixelRatio.get(),
+        marginVertical: 10,
     },
 });
 
@@ -31,30 +52,36 @@ export class ProductList extends Component {
         this.props.fetchProductsIfNeeded();
     }
 
-    _onPressProduct(productId) {
+    _onPressProduct(product) {
         return () => {
-            this.props.showProductPage(productId);
+            this.props.showProductPage(product);
         };
     }
 
     renderProducts(products) {
         return (
-            <ScrollView>
+            <ScrollView style={styles.contentContainer}>
                 {products.map((product) =>
-                    <TouchableOpacity
-                        key={product.id}
-                        onPress={this._onPressProduct(product.id)}>
-                        <View style={style.container}>
-                            <Image
-                                style={style.thumbnail}
-                                source={{uri: product.thumbnail}}
-                            />
-                            <View style={style.rightContainer}>
-                                <Text>Buy for {product.price}$</Text>
-                                <Text>{product.stock} in stock</Text>
+                    <View key={product.id}>
+                        <TouchableOpacity
+                            onPress={this._onPressProduct(product)}>
+                            <View style={styles.container}>
+                                <Image
+                                    style={styles.thumbnail}
+                                    source={{uri: product.thumbnail}}
+                                />
+                                <View style={styles.rightContainer}>
+                                    <Text style={styles.price}>
+                                        Buy for {product.price}$
+                                    </Text>
+                                    <Text style={styles.stock}>
+                                        {product.stock} in stock
+                                    </Text>
+                                </View>
                             </View>
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                        <View style={styles.separator} />
+                    </View>
                 )}
             </ScrollView>
         );

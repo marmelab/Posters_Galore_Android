@@ -20,14 +20,14 @@ export function productListRoute(state) {
     };
 }
 
-export function productDetailRoute(state, productId) {
+export function productDetailRoute(state, product) {
     return {
         route: {
             name: PRODUCT_DETAIL,
             component: ProductDetail,
         },
         routeDatas: {
-            id: productId,
+            product: product,
             onBack: state.onBack,
         },
     };

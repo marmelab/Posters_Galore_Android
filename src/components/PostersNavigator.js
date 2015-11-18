@@ -25,8 +25,8 @@ export class PostersNavigator extends Component {
             routeDatas.fetchProductsIfNeeded = () => {
                 this.props.fetchProductsIfNeeded();
             };
-            routeDatas.showProductPage = (productId) => {
-                this.showProductDetail(productId);
+            routeDatas.showProductPage = (product) => {
+                this.showProductDetail(product);
             };
             break;
         case routes.PRODUCT_DETAIL:
