@@ -2,7 +2,7 @@ import sinon from 'sinon';
 import assert from 'assert';
 import React from 'react';
 import utils from 'react-addons-test-utils';
-import { ProductList } from '../../src/components/ProductList';
+import ProductList from '../../src/components/ProductList';
 
 describe('component ProductList', () => {
     let productList;
@@ -11,6 +11,7 @@ describe('component ProductList', () => {
         isFetching: false,
         didInvalidate: false,
         fetchProductsIfNeeded: sinon.spy(),
+        showProductPage: sinon.spy(),
     };
 
     function renderProductList(props) {
@@ -51,7 +52,8 @@ describe('component ProductList', () => {
             'Not the good amount of rendered products'
         );
 
-        const [ view ] = output.props.children;
+        const touchable = output.props.children[0];
+        const view = touchable.props.children;
         const [ image, textView ] = view.props.children;
         assert.deepEqual(image.props.source.uri, 'some url');
 

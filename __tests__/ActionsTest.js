@@ -30,7 +30,7 @@ describe('actions', () => {
                 {type: actions.RECEIVE_PRODUCTS, products: ['list of products']},
             ];
 
-            const store = mockStore({ products: [] }, expectedActions, done);
+            const store = mockStore({ routeDatas: { products: []} }, expectedActions, done);
             store.dispatch(actions.fetchProductsIfNeeded());
         });
 
@@ -44,7 +44,7 @@ describe('actions', () => {
                 {type: actions.ERROR_HAPPENED},
             ];
 
-            const store = mockStore({ products: [] }, expectedActions, done);
+            const store = mockStore({ routeDatas: { products: []} }, expectedActions, done);
             store.dispatch(actions.fetchProductsIfNeeded());
         });
     });

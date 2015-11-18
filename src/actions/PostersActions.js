@@ -1,6 +1,7 @@
 export const REQUEST_PRODUCTS = 'REQUEST_PRODUCTS';
 export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS';
 export const ERROR_HAPPENED = 'ERROR_HAPPENED';
+export const CHANGE_ROUTE = 'CHANGE_ROUTE';
 
 const BASE_URL = 'http://postersgalore.marmelab.com/api';
 
@@ -13,6 +14,14 @@ export function errorHappened() {
 function requestProducts() {
     return {
         type: REQUEST_PRODUCTS,
+    };
+}
+
+export function changeRoute(route, routeDatas = {}) {
+    return {
+        type: CHANGE_ROUTE,
+        route,
+        routeDatas,
     };
 }
 
@@ -34,7 +43,7 @@ function fetchProducts() {
 }
 
 function shouldFetchPosts(state) {
-    const products = state.products;
+    const products = state.routeDatas.products;
     if (!products || products.length === 0) {
         return true;
     } else if (products.isFetching) {

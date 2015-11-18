@@ -3,9 +3,8 @@ import React, {
     ScrollView, View,
     Image, Text,
     StyleSheet,
+    TouchableOpacity,
 } from 'react-native';
-import { connect } from 'react-redux/native';
-import { fetchProductsIfNeeded } from '../actions/PostersActions';
 
 const style = StyleSheet.create({
     container: {
@@ -32,20 +31,30 @@ export class ProductList extends Component {
         this.props.fetchProductsIfNeeded();
     }
 
+    _onPressProduct(productId) {
+        return () => {
+            this.props.showProductPage(productId);
+        };
+    }
+
     renderProducts(products) {
         return (
             <ScrollView>
                 {products.map((product) =>
-                    <View style={style.container}>
-                        <Image
-                            style={style.thumbnail}
-                            source={{uri: product.thumbnail}}
-                        />
-                        <View style={style.rightContainer}>
-                            <Text>Buy for {product.price}$</Text>
-                            <Text>{product.stock} in stock</Text>
+                    <TouchableOpacity
+                        key={product.id}
+                        onPress={this._onPressProduct(product.id)}>
+                        <View style={style.container}>
+                            <Image
+                                style={style.thumbnail}
+                                source={{uri: product.thumbnail}}
+                            />
+                            <View style={style.rightContainer}>
+                                <Text>Buy for {product.price}$</Text>
+                                <Text>{product.stock} in stock</Text>
+                            </View>
                         </View>
-                    </View>
+                    </TouchableOpacity>
                 )}
             </ScrollView>
         );
@@ -83,6 +92,7 @@ ProductList.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     didInvalidate: PropTypes.bool.isRequired,
     fetchProductsIfNeeded: PropTypes.func.isRequired,
+    showProductPage: PropTypes.func.isRequired,
 };
 
-export default connect((state) => state, { fetchProductsIfNeeded })(ProductList);
+export default ProductList;

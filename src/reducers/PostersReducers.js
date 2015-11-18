@@ -1,12 +1,26 @@
+import { combineReducers } from 'redux';
 import * as actions from '../actions/PostersActions';
+import { productListRoute } from '../routes/PostersRoutes';
 
-const initialState = {
-    isFetching: false,
+const initialRoute = productListRoute({
+    isFetching: true,
     didInvalidate: false,
     products: [],
-};
+});
 
-export default function products(state = initialState, action) {
+export function route(state = initialRoute.route, action) {
+    switch (action.type) {
+    case actions.CHANGE_ROUTE:
+        return Object.assign({}, state, {
+            name: action.route.name,
+            component: action.route.component,
+        });
+    default:
+        return state;
+    }
+}
+
+export function routeDatas(state = initialRoute.routeDatas, action) {
     switch (action.type) {
     case actions.ERROR_HAPPENED:
         return Object.assign({}, state, {
@@ -23,7 +37,16 @@ export default function products(state = initialState, action) {
             isFetching: false,
             products: action.products,
         });
+    case actions.CHANGE_ROUTE:
+        return Object.assign({}, state, action.routeDatas);
     default:
         return state;
     }
 }
+
+const reducers = combineReducers({
+    route,
+    routeDatas,
+});
+
+export default reducers;
