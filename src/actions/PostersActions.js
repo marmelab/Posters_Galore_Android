@@ -43,13 +43,14 @@ function fetchProducts() {
 }
 
 function shouldFetchPosts(state) {
-    const products = state.routeDatas.products;
+    const routeDatas = state.routeDatas;
+    const products = routeDatas.products;
     if (!products || products.length === 0) {
         return true;
-    } else if (products.isFetching) {
+    } else if (routeDatas.isFetching) {
         return false;
     }
-    return products.didInvalidate;
+    return routeDatas.didInvalidate;
 }
 
 export function fetchProductsIfNeeded() {
