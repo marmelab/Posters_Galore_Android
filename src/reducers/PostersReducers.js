@@ -20,7 +20,7 @@ export function route(state = initialRoute.route, action) {
     }
 }
 
-export function routeDatas(state = initialRoute.routeDatas, action) {
+export function routeData(state = initialRoute.routeData, action) {
     switch (action.type) {
     case actions.ERROR_HAPPENED:
         return Object.assign({}, state, {
@@ -38,7 +38,7 @@ export function routeDatas(state = initialRoute.routeDatas, action) {
             products: action.products,
         });
     case actions.CHANGE_ROUTE:
-        return Object.assign({}, state, action.routeDatas);
+        return Object.assign({}, state, action.routeData);
     default:
         return state;
     }
@@ -46,7 +46,7 @@ export function routeDatas(state = initialRoute.routeDatas, action) {
 
 const reducers = combineReducers({
     route,
-    routeDatas,
+    routeData,
 });
 
 export default reducers;

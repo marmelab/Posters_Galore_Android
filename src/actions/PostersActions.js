@@ -17,11 +17,11 @@ function requestProducts() {
     };
 }
 
-export function changeRoute(route, routeDatas = {}) {
+export function changeRoute(route, routeData = {}) {
     return {
         type: CHANGE_ROUTE,
         route,
-        routeDatas,
+        routeData,
     };
 }
 
@@ -43,14 +43,14 @@ function fetchProducts() {
 }
 
 function shouldFetchPosts(state) {
-    const routeDatas = state.routeDatas;
-    const products = routeDatas.products;
+    const routeData = state.routeData;
+    const products = routeData.products;
     if (!products || products.length === 0) {
         return true;
-    } else if (routeDatas.isFetching) {
+    } else if (routeData.isFetching) {
         return false;
     }
-    return routeDatas.didInvalidate;
+    return routeData.didInvalidate;
 }
 
 export function fetchProductsIfNeeded() {

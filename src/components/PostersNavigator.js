@@ -13,9 +13,9 @@ export class PostersNavigator extends Component {
         super(props);
         this.bindEventListnener();
 
-        const { route, routeDatas } = this.bindActions(this.props);
+        const { route, routeData } = this.bindActions(this.props);
         this.route = route;
-        this.routeDatas = routeDatas;
+        this.routeData = routeData;
     }
 
     componentWillReceiveProps(nextProps) {
@@ -23,17 +23,17 @@ export class PostersNavigator extends Component {
             return;
         }
 
-        const { route, routeDatas } = this.bindActions(nextProps);
+        const { route, routeData } = this.bindActions(nextProps);
 
         if (this.route !== route) {
             this.route = route;
-            this.routeDatas = routeDatas;
+            this.routeData = routeData;
             this.navigator.push(route);
             return;
         }
 
-        if (this.routeDatas !== routeDatas) {
-            this.routeDatas = routeDatas;
+        if (this.routeData !== routeData) {
+            this.routeData = routeData;
             this.navigator.replace(this.route);
         }
     }
@@ -59,29 +59,29 @@ export class PostersNavigator extends Component {
     }
 
     showProductDetail(productId) {
-        const { route, routeDatas } = routes.productDetailRoute(this.props, productId);
-        this.props.changeRoute(route, routeDatas);
+        const { route, routeData } = routes.productDetailRoute(this.props, productId);
+        this.props.changeRoute(route, routeData);
     }
 
     bindActions(props) {
-        const { route, routeDatas } = props;
+        const { route, routeData } = props;
 
         switch (route.name) {
         case routes.PRODUCT_LIST:
-            routeDatas.fetchProductsIfNeeded = () => {
+            routeData.fetchProductsIfNeeded = () => {
                 this.props.fetchProductsIfNeeded();
             };
-            routeDatas.showProductPage = (product) => {
+            routeData.showProductPage = (product) => {
                 this.showProductDetail(product);
             };
             break;
         case routes.PRODUCT_DETAIL:
             if (!this.navigator) {
-                routeDatas.onBack = () => {
+                routeData.onBack = () => {
                     this.showProductList();
                 };
             } else {
-                routeDatas.onBack = () => {
+                routeData.onBack = () => {
                     this.navigator.pop();
                 };
             }
@@ -90,7 +90,7 @@ export class PostersNavigator extends Component {
             break;
         }
 
-        return { route, routeDatas };
+        return { route, routeData };
     }
 
     renderScene(route, navigator) {
@@ -98,10 +98,10 @@ export class PostersNavigator extends Component {
             this.navigator = navigator;
         }
 
-        const { routeDatas } = this;
+        const { routeData } = this;
 
         return (
-            <route.component {...routeDatas} />
+            <route.component {...routeData} />
         );
     }
 
@@ -120,7 +120,7 @@ export class PostersNavigator extends Component {
 
 PostersNavigator.propTypes = {
     route: PropTypes.object.isRequired,
-    routeDatas: PropTypes.object.isRequired,
+    routeData: PropTypes.object.isRequired,
     changeRoute: PropTypes.func.isRequired,
     fetchProductsIfNeeded: PropTypes.func.isRequired,
 };

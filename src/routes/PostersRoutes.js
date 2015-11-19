@@ -10,7 +10,7 @@ export function productListRoute(state) {
             name: PRODUCT_LIST,
             component: ProductList,
         },
-        routeDatas: {
+        routeData: {
             fetchProductsIfNeeded: state.fetchProductsIfNeeded,
             isFetching: state.isFetching,
             didInvalidate: state.didInvalidate,
@@ -26,7 +26,7 @@ export function productDetailRoute(state, product) {
             name: PRODUCT_DETAIL,
             component: ProductDetail,
         },
-        routeDatas: {
+        routeData: {
             product: product,
             onBack: state.onBack,
         },

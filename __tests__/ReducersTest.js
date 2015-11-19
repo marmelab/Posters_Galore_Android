@@ -1,7 +1,7 @@
 import assert from 'assert';
 import reducers, {
     route as routeReducer,
-    routeDatas as routeDatasReducer,
+    routeData as routeDataReducer,
 } from '../src/reducers/PostersReducers';
 import * as actions from '../src/actions/PostersActions';
 import * as routes from '../src/routes/PostersRoutes';
@@ -49,26 +49,26 @@ describe('reducers', () => {
         });
     });
 
-    describe('route datas', () => {
-        it('should return correct initial route datas', () => {
+    describe('route data', () => {
+        it('should return correct initial route data', () => {
             const expectedDatas = routes.productListRoute({
                 isFetching: true,
                 didInvalidate: false,
                 products: [],
-            }).routeDatas;
-            assert.deepEqual(routeDatasReducer(undefined, {}), expectedDatas);
+            }).routeData;
+            assert.deepEqual(routeDataReducer(undefined, {}), expectedDatas);
         });
 
         it('should handle error happened event', () => {
             const action = actions.errorHappened();
-            assert.deepEqual(routeDatasReducer({}, action), {
+            assert.deepEqual(routeDataReducer({}, action), {
                 didInvalidate: true,
             });
         });
 
         it('should handle request products event', () => {
             const action = {type: actions.REQUEST_PRODUCTS};
-            assert.deepEqual(routeDatasReducer({}, action), {
+            assert.deepEqual(routeDataReducer({}, action), {
                 didInvalidate: false,
                 isFetching: true,
             });
@@ -79,7 +79,7 @@ describe('reducers', () => {
                 type: actions.RECEIVE_PRODUCTS,
                 products: ['some cool products'],
             };
-            assert.deepEqual(routeDatasReducer({}, action), {
+            assert.deepEqual(routeDataReducer({}, action), {
                 didInvalidate: false,
                 isFetching: false,
                 products: ['some cool products'],
@@ -89,10 +89,10 @@ describe('reducers', () => {
         it('should handle change route event', () => {
             const action = {
                 type: actions.CHANGE_ROUTE,
-                routeDatas: {some: 'datas'},
+                routeData: {some: 'data'},
             };
-            assert.deepEqual(routeDatasReducer({}, action), {
-                some: 'datas',
+            assert.deepEqual(routeDataReducer({}, action), {
+                some: 'data',
             });
         });
     });

@@ -1,5 +1,5 @@
 import React, {
-    Component, PropTypes,
+    PropTypes,
     StyleSheet,
     PixelRatio,
     ToolbarAndroid, TouchableOpacity,
@@ -54,60 +54,58 @@ const styles = StyleSheet.create({
     },
 });
 
-class ProductDetail extends Component {
-    render() {
-        const product = this.props.product;
+function ProductDetail(props) {
+    const product = props.product;
 
-        return (
-            <View>
-                <View style={{flex: 1}}>
-                    <TouchableOpacity onPress={this.props.onBack}>
-                        <ToolbarAndroid
-                            actions={[]}
-                            style={styles.toolbar}
-                            titleColor="white"
-                            title={`Back`}
-                        />
-                    </TouchableOpacity>
-                </View>
-                <ScrollView contentContainerStyle={styles.contentContainer}>
-                    <View style={styles.mainSection}>
-                        <Image
-                            source={{uri: product.image}}
-                            style={styles.detailsImage}
-                        />
-                        <View style={styles.rightPane}>
-                            <Text style={styles.productReference}>
-                                Ref: {product.reference}
+    return (
+        <View>
+            <View style={{flex: 1}}>
+                <TouchableOpacity onPress={props.onBack}>
+                    <ToolbarAndroid
+                        actions={[]}
+                        style={styles.toolbar}
+                        titleColor="white"
+                        title={`Back`}
+                    />
+                </TouchableOpacity>
+            </View>
+            <ScrollView contentContainerStyle={styles.contentContainer}>
+                <View style={styles.mainSection}>
+                    <Image
+                        source={{uri: product.image}}
+                        style={styles.detailsImage}
+                    />
+                    <View style={styles.rightPane}>
+                        <Text style={styles.productReference}>
+                            Ref: {product.reference}
+                        </Text>
+                        <View style={styles.pane}>
+                            <Text style={styles.paneTitle}>Price</Text>
+                            <Text style={styles.paneStrongValue}>
+                                {product.price} $
                             </Text>
-                            <View style={styles.pane}>
-                                <Text style={styles.paneTitle}>Price</Text>
-                                <Text style={styles.paneStrongValue}>
-                                    {product.price} $
-                                </Text>
-                            </View>
-                            <View style={styles.pane}>
-                                <Text style={styles.paneTitle}>Width</Text>
-                                <Text>
-                                    {product.width} in
-                                </Text>
-                            </View>
-                            <View style={styles.pane}>
-                                <Text style={styles.paneTitle}>Height</Text>
-                                <Text>
-                                    {product.height} in
-                                </Text>
-                            </View>
+                        </View>
+                        <View style={styles.pane}>
+                            <Text style={styles.paneTitle}>Width</Text>
+                            <Text>
+                                {product.width} in
+                            </Text>
+                        </View>
+                        <View style={styles.pane}>
+                            <Text style={styles.paneTitle}>Height</Text>
+                            <Text>
+                                {product.height} in
+                            </Text>
                         </View>
                     </View>
-                    <View style={styles.separator} />
-                    <Text>
-                        {product.description}
-                    </Text>
-                </ScrollView>
-            </View>
-        );
-    }
+                </View>
+                <View style={styles.separator} />
+                <Text>
+                    {product.description}
+                </Text>
+            </ScrollView>
+        </View>
+    );
 }
 
 ProductDetail.propTypes = {

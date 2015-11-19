@@ -17,15 +17,15 @@ describe('actions', () => {
         assert.deepEqual(actions.changeRoute('route'), {
             type: actions.CHANGE_ROUTE,
             route: 'route',
-            routeDatas: {},
+            routeData: {},
         });
     });
 
-    it('should create action for route change with route datas', () => {
-        assert.deepEqual(actions.changeRoute('route', 'route datas'), {
+    it('should create action for route change with route data', () => {
+        assert.deepEqual(actions.changeRoute('route', 'route data'), {
             type: actions.CHANGE_ROUTE,
             route: 'route',
-            routeDatas: 'route datas',
+            routeData: 'route data',
         });
     });
 
@@ -44,13 +44,13 @@ describe('actions', () => {
                 {type: actions.RECEIVE_PRODUCTS, products: ['list of products']},
             ];
 
-            const store = mockStore({routeDatas: {products: []}}, expectedActions, done);
+            const store = mockStore({routeData: {products: []}}, expectedActions, done);
             store.dispatch(actions.fetchProductsIfNeeded());
         });
 
         it('should not request list of products if already fetching', (done) => {
             const state = {
-                routeDatas: {
+                routeData: {
                     isFetching: true,
                     products: ['a product'],
                 },
@@ -75,7 +75,7 @@ describe('actions', () => {
                 {type: actions.ERROR_HAPPENED},
             ];
 
-            const store = mockStore({routeDatas: {products: []}}, expectedActions, done);
+            const store = mockStore({routeData: {products: []}}, expectedActions, done);
             store.dispatch(actions.fetchProductsIfNeeded());
         });
     });
