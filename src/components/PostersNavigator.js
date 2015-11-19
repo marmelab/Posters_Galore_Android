@@ -1,12 +1,58 @@
 import React, {
     Component,
     PropTypes,
+    Navigator,
+    BackAndroid,
 } from 'react-native';
 import { connect } from 'react-redux/native';
 import { changeRoute, fetchProductsIfNeeded } from '../actions/PostersActions';
 import * as routes from '../routes/PostersRoutes';
 
 export class PostersNavigator extends Component {
+    constructor(props) {
+        super(props);
+        this.bindEventListnener();
+
+        const { route, routeDatas } = this.bindActions(this.props);
+        this.route = route;
+        this.routeDatas = routeDatas;
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps === this.props || !this.navigator) {
+            return;
+        }
+
+        const { route, routeDatas } = this.bindActions(nextProps);
+
+        if (this.route !== route) {
+            this.route = route;
+            this.routeDatas = routeDatas;
+            this.navigator.push(route);
+            return;
+        }
+
+        if (this.routeDatas !== routeDatas) {
+            this.routeDatas = routeDatas;
+            this.navigator.replace(this.route);
+        }
+    }
+
+    bindEventListnener() {
+        BackAndroid.addEventListener('hardwareBackPress', () => {
+            if (!this.navigator) {
+                return false;
+            }
+
+            if (this.route.name === routes.PRODUCT_LIST) {
+                return false;
+            }
+
+            this.navigator.pop();
+            return true;
+        });
+    }
+
     showProductList() {
         const { route } = routes.productListRoute(this.props);
         this.props.changeRoute(route);
@@ -30,9 +76,15 @@ export class PostersNavigator extends Component {
             };
             break;
         case routes.PRODUCT_DETAIL:
-            routeDatas.onBack = () => {
-                this.showProductList();
-            };
+            if (!this.navigator) {
+                routeDatas.onBack = () => {
+                    this.showProductList();
+                };
+            } else {
+                routeDatas.onBack = () => {
+                    this.navigator.pop();
+                };
+            }
             break;
         default:
             break;
@@ -41,11 +93,27 @@ export class PostersNavigator extends Component {
         return { route, routeDatas };
     }
 
-    render() {
-        const { route, routeDatas } = this.bindActions(this.props);
+    renderScene(route, navigator) {
+        if (!this.navigator) {
+            this.navigator = navigator;
+        }
+
+        const { routeDatas } = this;
 
         return (
             <route.component {...routeDatas} />
+        );
+    }
+
+    render() {
+        const { route } = this;
+
+        return (
+            <Navigator
+                initialRoute={route}
+                configureScene={() => Navigator.SceneConfigs.FadeAndroid}
+                renderScene={this.renderScene.bind(this)}
+            />
         );
     }
 }
