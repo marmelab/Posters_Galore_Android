@@ -1,5 +1,3 @@
-jest.dontMock('../src/actions/PostersActions');
-
 import 'isomorphic-fetch';
 import assert from 'assert';
 import nock from 'nock';
@@ -12,6 +10,22 @@ describe('actions', () => {
     it('should create an action to notice an error', () => {
         assert.deepEqual(actions.errorHappened(), {
             type: actions.ERROR_HAPPENED,
+        });
+    });
+
+    it('should create action for route change', () => {
+        assert.deepEqual(actions.changeRoute('route'), {
+            type: actions.CHANGE_ROUTE,
+            route: 'route',
+            routeData: {},
+        });
+    });
+
+    it('should create action for route change with route data', () => {
+        assert.deepEqual(actions.changeRoute('route', 'route data'), {
+            type: actions.CHANGE_ROUTE,
+            route: 'route',
+            routeData: 'route data',
         });
     });
 
@@ -30,8 +44,25 @@ describe('actions', () => {
                 {type: actions.RECEIVE_PRODUCTS, products: ['list of products']},
             ];
 
-            const store = mockStore({ products: [] }, expectedActions, done);
+            const store = mockStore({routeData: {products: []}}, expectedActions, done);
             store.dispatch(actions.fetchProductsIfNeeded());
+        });
+
+        it('should not request list of products if already fetching', (done) => {
+            const state = {
+                routeData: {
+                    isFetching: true,
+                    products: ['a product'],
+                },
+            };
+
+            const expectedActions = [
+                {type: actions.REQUEST_PRODUCTS},
+            ];
+
+            const store = mockStore(state, expectedActions, done);
+            const result = store.dispatch(actions.fetchProductsIfNeeded());
+            assert.deepEqual(result, undefined);
         });
 
         it('should catch a request error and notice it', (done) => {
@@ -44,7 +75,7 @@ describe('actions', () => {
                 {type: actions.ERROR_HAPPENED},
             ];
 
-            const store = mockStore({ products: [] }, expectedActions, done);
+            const store = mockStore({routeData: {products: []}}, expectedActions, done);
             store.dispatch(actions.fetchProductsIfNeeded());
         });
     });
